@@ -10,7 +10,14 @@
     <script type="module">
         console.log("wassup fuckers");
         import init from "./static/wasm/wasm_canvas.js";
-        init();
+        await init();
+        import {noomber} from "./static/wasm/wasm_canvas.js";
+        function animate() {
+            noomber();  // Call the WASM function
+            requestAnimationFrame(animate);  // Schedule next frame
+        }
+        requestAnimationFrame(animate);
+        
     </script>
 </body>
 </html>
