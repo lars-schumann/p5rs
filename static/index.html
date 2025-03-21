@@ -6,14 +6,15 @@
     <title>WASM Canvas</title>
 </head>
 <body>
-    <canvas id="canvas" width="500" height="500" style="border:1px solid black;"></canvas>
+    <canvas id="canvas" width="1000" height="1000" style="border:1px solid black;"></canvas>
     <script type="module">
         console.log("wassup fuckers");
         import init from "./static/wasm/wasm_canvas.js";
         await init();
-        import {noomber} from "./static/wasm/wasm_canvas.js";
+        import {setup, draw} from "./static/wasm/wasm_canvas.js";
+        setup();
         function animate() {
-            noomber();  // Call the WASM function
+            draw();  // Call the WASM function
             requestAnimationFrame(animate);  // Schedule next frame
         }
         requestAnimationFrame(animate);

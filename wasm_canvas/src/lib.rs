@@ -1,54 +1,71 @@
-use std::{iter::RepeatN, thread::sleep, time};
-
+mod types;
+use types::{Float, Int};
 use wasm_bindgen::prelude::*;
 use web_sys::{
-    CanvasRenderingContext2d, Document, HtmlCanvasElement,
-    js_sys::{Math::random, eval},
-    window,
+    CanvasRenderingContext2d, Document, HtmlCanvasElement, js_sys::Math::random, window,
 };
 
-#[wasm_bindgen(start)]
-pub fn start() {
+static P_1_X: f64 = 400.0;
+static P_1_Y: f64 = 0.0;
+static P_2_X: f64 = 0.0;
+static P_2_Y: f64 = 800.0;
+static P_3_X: f64 = 800.0;
+static P_3_Y: f64 = 800.0;
+
+static P_X: Float = Float::new(0.0);
+static P_Y: Float = Float::new(0.0);
+
+fn get_canvas_context() -> CanvasRenderingContext2d {
     let document: Document = window().unwrap().document().unwrap();
+
     let canvas: HtmlCanvasElement = document
         .get_element_by_id("canvas")
         .unwrap()
         .dyn_into::<HtmlCanvasElement>()
         .unwrap();
 
-    let context: CanvasRenderingContext2d = canvas
+    canvas
         .get_context("2d")
         .unwrap()
         .unwrap()
         .dyn_into::<CanvasRenderingContext2d>()
-        .unwrap();
+        .unwrap()
+}
+#[wasm_bindgen(start)]
+pub fn start() {}
 
-    // Draw a rectangle
-    context.set_fill_style(&"yellow".into());
-    context.fill_rect(50.0, 50.0, 55.0, 55.0);
+#[wasm_bindgen]
+pub fn setup() {
+    draw_rect(400.0, 0.0, 10.0, 10.0, "green");
+    draw_rect(0.0, 800.0, 10.0, 10.0, "green");
+    draw_rect(800.0, 800.0, 10.0, 10.0, "green");
 }
 
 #[wasm_bindgen]
-pub fn noomber() {
-    let document: Document = window().unwrap().document().unwrap();
-    let canvas: HtmlCanvasElement = document
-        .get_element_by_id("canvas")
-        .unwrap()
-        .dyn_into::<HtmlCanvasElement>()
-        .unwrap();
+pub fn draw() {
+    for _ in 0..100 {
+        match (random() * 3.0).floor() as u8 {
+            0 => {
+                P_X.set((P_X.get() + P_1_X) / 2.);
+                P_Y.set((P_Y.get() + P_1_Y) / 2.);
+            }
+            1 => {
+                P_X.set((P_X.get() + P_2_X) / 2.);
+                P_Y.set((P_Y.get() + P_2_Y) / 2.);
+            }
+            _ => {
+                P_X.set((P_X.get() + P_3_X) / 2.);
+                P_Y.set((P_Y.get() + P_3_Y) / 2.);
+            }
+        }
 
-    let context: CanvasRenderingContext2d = canvas
-        .get_context("2d")
-        .unwrap()
-        .unwrap()
-        .dyn_into::<CanvasRenderingContext2d>()
-        .unwrap();
-
-    context.set_fill_style(&"blue".into());
-    let (x, y) = (500. * random(), 500. * random());
-    context.fill_rect(x, y, 1., 1.);
-
-    web_sys::console::log1(&String::from("wassup"));
+        draw_rect(P_X.get(), P_Y.get(), 0.2, 0.2, "blue");
+    }
 }
 
+fn draw_rect(x: f64, y: f64, width: f64, height: f64, color: &str) {
+    let context = get_canvas_context();
+    context.set_fill_style_str(color);
+    context.fill_rect(x, y, width, height);
+}
 //wasm-pack build --target web --out-dir ../static/wasm
