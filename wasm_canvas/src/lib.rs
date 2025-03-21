@@ -25,9 +25,9 @@ static P_Y: Float = Float::new(0.0);
 #[wasm_bindgen]
 pub fn setup() {
     let canvas = Canvas::new(1000, 1000).unwrap();
-    canvas.draw_rect(500.0, 0.0, 10.0, 10.0, "green");
-    canvas.draw_rect(0.0, 995.0, 10.0, 10.0, "green");
-    canvas.draw_rect(995.0, 995.0, 10.0, 10.0, "green");
+    canvas.draw_rect(P_1_X, P_1_Y, 10.0, 10.0, "blue");
+    canvas.draw_rect(P_2_X, P_2_Y - 5., 10.0, 10.0, "blue");
+    canvas.draw_rect(P_3_X - 5., P_3_Y - 5., 10.0, 10.0, "blue");
 }
 
 #[wasm_bindgen]
