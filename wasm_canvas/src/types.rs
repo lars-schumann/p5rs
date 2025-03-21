@@ -1,6 +1,5 @@
 use std::fmt::Display;
 use std::sync::atomic::{AtomicI64, AtomicU64, Ordering};
-use web_sys::console;
 
 const ORD: Ordering = Ordering::Relaxed;
 pub struct Int {
@@ -23,10 +22,6 @@ impl Int {
 
     pub fn add(&self, value: i64) {
         self.storage.fetch_add(value, ORD);
-    }
-
-    pub fn log(&self) {
-        console::log_1(&format!("{}", self).into());
     }
 }
 
@@ -77,10 +72,6 @@ impl Float {
         self.storage
             .fetch_update(ORD, ORD, |v| Some((f64::from_bits(v) * value).to_bits()))
             .unwrap();
-    }
-
-    pub fn log(&self) {
-        console::log_1(&format!("{}", self).into());
     }
 }
 
