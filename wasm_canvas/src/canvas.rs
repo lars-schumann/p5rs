@@ -1,3 +1,5 @@
+use std::f64::consts::PI;
+
 use wasm_bindgen::prelude::*;
 use web_sys::{CanvasRenderingContext2d, Document, HtmlCanvasElement, window};
 
@@ -34,7 +36,14 @@ impl Canvas {
 
     pub fn draw_rect(&self, x: f64, y: f64, width: f64, height: f64, color: &str) {
         self.canvas_context.set_fill_style_str(color);
-        self.canvas_context.fill_rect(x, y, width, height);
+        self.canvas_context.rect(x, y, width, height);
+    }
+
+    pub fn draw_circ(&self, x: f64, y: f64, radius: f64, color: &str) {
+        self.canvas_context.set_fill_style_str(color);
+        self.canvas_context.begin_path();
+        self.canvas_context.arc(x, y, radius, 0., 2. * PI).unwrap();
+        self.canvas_context.stroke();
     }
 }
 

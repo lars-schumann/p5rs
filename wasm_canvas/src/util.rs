@@ -1,5 +1,5 @@
-pub fn log(thing: &impl std::fmt::Display) {
-    web_sys::console::log_1(&format!("logging: {}", thing).into());
+pub fn log<T: std::fmt::Debug>(thing: &T) {
+    web_sys::console::log_1(&format!("logging: {:?}", thing).into());
 }
 
 pub fn random_int(lower_bound: i64, upper_bound: i64) -> i64 {
