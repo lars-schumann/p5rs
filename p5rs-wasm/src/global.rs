@@ -1,10 +1,10 @@
 use std::sync::Mutex;
 
-pub struct Global<T: Copy> {
+pub struct Global<T> {
     inner: Mutex<T>,
 }
 
-impl<T: Copy> Global<T> {
+impl<T: Clone> Global<T> {
     pub const fn new(value: T) -> Self {
         Self {
             inner: Mutex::new(value),
@@ -12,7 +12,7 @@ impl<T: Copy> Global<T> {
     }
 
     pub fn get(&self) -> T {
-        *self.inner.lock().unwrap()
+        (*self.inner.lock().unwrap()).clone()
     }
 
     pub fn set(&self, value: T) {

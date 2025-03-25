@@ -22,7 +22,7 @@ impl Canvas {
 
 pub trait Drawable {
     fn draw_rect(&self, point: Point, width: f64, height: f64, color: &str);
-    fn draw_circ(&self, point: Point, radius: f64, color: &str);
+    fn draw_ring(&self, point: Point, radius: f64, width: f64, color: &str);
     fn clear(&self);
     fn translate(&self, dx: f64, dy: f64);
 }
@@ -33,13 +33,15 @@ impl Drawable for Canvas {
         self.context.fill_rect(point.x, point.y, width, height);
     }
 
-    fn draw_circ(&self, point: Point, radius: f64, color: &str) {
-        self.context.set_fill_style_str(color);
+    fn draw_ring(&self, point: Point, radius: f64, width: f64, color: &str) {
+        self.context.set_stroke_style_str(color); // Set outline color
+        self.context.set_line_width(width);
         self.context.begin_path();
         self.context
             .arc(point.x, point.y, radius, 0., 2. * PI)
             .unwrap();
         self.context.stroke();
+        self.context.set_line_width(1.0);
     }
 
     fn clear(&self) {

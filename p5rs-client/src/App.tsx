@@ -3,7 +3,8 @@ import { Person } from "./types";
 import EditorComponent from "./EditorComponent";
 import "./App.css";
 import Canvas from "./Canvas";
-
+import DynamicScriptLoader from "./DynamicScriptLoader";
+import ScriptLoaderJsWasm from "./ScriptLoaderJsWasm";
 const AVATAR_1 =
   "https://res.cloudinary.com/dqse2txyi/image/upload/v1666049372/axum_server/img_avatar_lf92vl.png";
 
@@ -14,7 +15,7 @@ function App() {
   const [people, setPeople] = useState<Person[]>([]);
 
   useEffect(() => {
-    fetch("http://localhost:3000/people")
+    fetch("/people")
       .then((res) => res.json())
       .then((people: Person[]) => setPeople(people));
   }, []);
@@ -39,6 +40,8 @@ function App() {
       {/* Monaco Editor Component */}
       <EditorComponent />
       <Canvas />
+      <DynamicScriptLoader />
+      <ScriptLoaderJsWasm />
     </div>
   );
 }

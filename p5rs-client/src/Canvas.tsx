@@ -34,17 +34,18 @@ const Canvas = () => {
     (window as any).mouseIsPressed = () => mouseState.isPressed;
 
     // Import and initialize WASM module
-    import("../../p5rs-wasm/wasm/wasm_canvas").then(async (module) => {
-      await module.default(); // Init WASM
-      module.setup();
 
-      function animate() {
-        module.draw();
-        requestAnimationFrame(animate);
-      }
-
-      requestAnimationFrame(animate);
-    });
+    //import("../../p5rs-wasm/pkg/p5rs_wasm.js").then(async (module) => {
+    //  await module.default(); // Init WASM
+    //  module.setup();
+    //
+    //  function animate() {
+    //    module.draw();
+    //    requestAnimationFrame(animate);
+    //  }
+    //
+    //  requestAnimationFrame(animate);
+    //});
 
     // Cleanup function
     return () => {
@@ -60,7 +61,10 @@ const Canvas = () => {
       id="canvas"
       width="1000"
       height="1000"
-      style={{ border: "1px solid black" }}
+      style={{
+        border: "10px solid black",
+        imageRendering: "pixelated", // Apply pixelation
+      }}
     ></canvas>
   );
 };

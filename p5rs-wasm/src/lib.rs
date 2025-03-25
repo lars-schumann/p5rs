@@ -17,4 +17,4 @@ pub fn draw() {
     edit::draw()
 }
 
-//wasm-pack build --target web --out-dir ./wasm
+//wasm-pack build --target web

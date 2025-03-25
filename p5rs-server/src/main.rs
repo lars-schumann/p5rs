@@ -1,4 +1,7 @@
-use axum::{Json, Router, http::StatusCode, response::IntoResponse, routing::get};
+use axum::{
+    Json, Router, http::StatusCode, response::Html, response::IntoResponse, response::Response,
+    routing::get,
+};
 use std::net::SocketAddr;
 use tower_http::cors::{Any, CorsLayer};
 use tower_http::services::ServeDir;
@@ -11,6 +14,9 @@ async fn main() {
 
     let app = Router::new()
         .route("/people", get(get_people))
+        .route("/dynamic-script.js", get(serve_dynamic_js))
+        .route("/scriptA.js", get(serve_script_a_js))
+        .route("/p5rs_wasm_bg.wasm", get(serve_module_wasm))
         .fallback_service(ServeDir::new("../p5rs-client/dist"))
         .layer(cors);
 
@@ -41,4 +47,46 @@ async fn get_people() -> impl IntoResponse {
     ];
 
     (StatusCode::OK, Json(people))
+}
+
+async fn serve_dynamic_js() -> impl IntoResponse {
+    match std::fs::read_to_string("../p5rs-wasm/test.js") {
+        Ok(content) => Response::builder()
+            .status(StatusCode::OK)
+            .header("Content-Type", "application/javascript")
+            .body(content)
+            .unwrap(),
+        Err(_) => Response::builder()
+            .status(StatusCode::NOT_FOUND)
+            .body("JavaScript file not found".into())
+            .unwrap(),
+    }
+}
+
+async fn serve_script_a_js() -> impl IntoResponse {
+    match std::fs::read_to_string("./pkg/p5rs_wasm.js") {
+        Ok(content) => Response::builder()
+            .status(StatusCode::OK)
+            .header("Content-Type", "application/javascript")
+            .body(content)
+            .unwrap(),
+        Err(_) => Response::builder()
+            .status(StatusCode::NOT_FOUND)
+            .body("JavaScript file p5rs_wasm.js not found".into())
+            .unwrap(),
+    }
+}
+
+async fn serve_module_wasm() -> impl IntoResponse {
+    match std::fs::read("./pkg/p5rs_wasm_bg.wasm") {
+        Ok(content) => Response::builder()
+            .status(StatusCode::OK)
+            .header("Content-Type", "application/wasm")
+            .body::<axum::body::Body>(content.into())
+            .unwrap(),
+        Err(_) => Response::builder()
+            .status(StatusCode::NOT_IMPLEMENTED)
+            .body("wasm file p5rs_wasm_bg.wasm not found".into())
+            .unwrap(),
+    }
 }
