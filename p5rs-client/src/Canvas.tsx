@@ -10,10 +10,8 @@ const Canvas = () => {
     const context = canvas.getContext("2d");
     if (!context) return;
 
-    // Mouse state
     const mouseState = { x: 0, y: 0, isPressed: false };
 
-    // Update mouse state on events
     const updateMousePosition = (event: MouseEvent) => {
       const rect = canvas.getBoundingClientRect();
       mouseState.x = event.clientX - rect.left;
@@ -33,20 +31,6 @@ const Canvas = () => {
     (window as any).mouseY = () => mouseState.y;
     (window as any).mouseIsPressed = () => mouseState.isPressed;
 
-    // Import and initialize WASM module
-
-    //import("../../p5rs-wasm/pkg/p5rs_wasm.js").then(async (module) => {
-    //  await module.default(); // Init WASM
-    //  module.setup();
-    //
-    //  function animate() {
-    //    module.draw();
-    //    requestAnimationFrame(animate);
-    //  }
-    //
-    //  requestAnimationFrame(animate);
-    //});
-
     // Cleanup function
     return () => {
       canvas.removeEventListener("mousemove", updateMousePosition);
@@ -63,7 +47,7 @@ const Canvas = () => {
       height="1000"
       style={{
         border: "10px solid black",
-        imageRendering: "pixelated", // Apply pixelation
+        //imageRendering: "pixelated",
       }}
     ></canvas>
   );

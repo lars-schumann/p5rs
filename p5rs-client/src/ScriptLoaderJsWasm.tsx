@@ -2,22 +2,8 @@ import { useEffect, useState } from "react";
 
 function ScriptLoaderJsWasm() {
   const [jsModule, setJsModule] = useState<any>(null);
-  //const [wasmModule, setWasmModule] = useState<any>(null);
 
   useEffect(() => {
-    // Load WebAssembly module
-    //const loadWasmModule = async () => {
-    //  try {
-    //    const res = await fetch("/p5rs_wasm_bg.wasm");
-    //    const wasmArrayBuffer = await res.arrayBuffer();
-    //    const wasm = await WebAssembly.instantiate(wasmArrayBuffer);
-    //    setWasmModule(wasm.instance.exports);
-    //  } catch (err) {
-    //    console.error("Failed to load WebAssembly module", err);
-    //  }
-    //};
-
-    // Load JavaScript module
     const loadJsModule = async () => {
       try {
         const res = await fetch("/scriptA.js");
@@ -31,20 +17,15 @@ function ScriptLoaderJsWasm() {
       }
     };
 
-    //loadWasmModule();
     loadJsModule();
   }, []);
 
   const execute = async () => {
-    if (jsModule /* && wasmModule */) {
+    if (jsModule) {
       try {
-        // Await the default function if it's async
         await jsModule.default("/p5rs_wasm_bg.wasm");
-
-        // Call setup
         jsModule.setup();
 
-        // Animation loop
         function animate() {
           jsModule.draw();
           requestAnimationFrame(animate);
@@ -58,8 +39,8 @@ function ScriptLoaderJsWasm() {
 
   return (
     <div>
-      <button onClick={execute} disabled={!jsModule /*|| !wasmModule*/}>
-        Execute JS with WASM
+      <button onClick={execute} disabled={!jsModule}>
+        Load and run wasm module
       </button>
     </div>
   );
