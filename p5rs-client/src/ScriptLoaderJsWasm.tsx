@@ -6,7 +6,7 @@ function ScriptLoaderJsWasm() {
   useEffect(() => {
     const loadJsModule = async () => {
       try {
-        const res = await fetch("/scriptA.js");
+        const res = await fetch("/scripts/wasm_loader.js");
         const script = await res.text();
         const blob = new Blob([script], { type: "application/javascript" });
         const url = URL.createObjectURL(blob);
@@ -23,7 +23,7 @@ function ScriptLoaderJsWasm() {
   const execute = async () => {
     if (jsModule) {
       try {
-        await jsModule.default("/p5rs_wasm_bg.wasm");
+        await jsModule.default("/scripts/unnamed.wasm");
         jsModule.setup();
 
         function animate() {

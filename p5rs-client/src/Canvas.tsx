@@ -21,7 +21,6 @@ const Canvas = () => {
     const handleMouseDown = () => (mouseState.isPressed = true);
     const handleMouseUp = () => (mouseState.isPressed = false);
 
-    // Attach event listeners
     window.addEventListener("mousemove", updateMousePosition);
     window.addEventListener("mousedown", handleMouseDown);
     window.addEventListener("mouseup", handleMouseUp);
