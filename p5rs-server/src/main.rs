@@ -8,8 +8,8 @@ async fn main() {
     let cors = CorsLayer::new().allow_origin(Any);
 
     let app = Router::new()
-        .route("/scripts/wasm_loader.js", get(serve_script_a_js))
-        .route("/scripts/unnamed.wasm", get(serve_module_wasm))
+        .route("/code/example/js", get(serve_code_example_js))
+        .route("/code/example/wasm", get(serve_code_example_wasm))
         .fallback_service(ServeDir::new("./frontend/dist"))
         .layer(cors);
 
@@ -20,8 +20,8 @@ async fn main() {
     axum::serve(listener, app).await.unwrap();
 }
 
-async fn serve_script_a_js() -> impl IntoResponse {
-    match std::fs::read_to_string("./scripts/pkg/p5rs_wasm.js") {
+async fn serve_code_example_js() -> impl IntoResponse {
+    match std::fs::read_to_string("./code/example_1/pkg/p5rs_wasm.js") {
         Ok(content) => Response::builder()
             .status(StatusCode::OK)
             .header("Content-Type", "application/javascript")
@@ -34,8 +34,8 @@ async fn serve_script_a_js() -> impl IntoResponse {
     }
 }
 
-async fn serve_module_wasm() -> impl IntoResponse {
-    match std::fs::read("./scripts/pkg/p5rs_wasm_bg.wasm") {
+async fn serve_code_example_wasm() -> impl IntoResponse {
+    match std::fs::read("./code/example_1/pkg/p5rs_wasm_bg.wasm") {
         Ok(content) => Response::builder()
             .status(StatusCode::OK)
             .header("Content-Type", "application/wasm")

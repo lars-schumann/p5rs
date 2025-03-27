@@ -1,14 +1,14 @@
-import EditorComponent from "./MonacoEditor";
+import MonacoEditor from "./MonacoEditor";
 import "./App.css";
 import Canvas from "./Canvas";
-import ScriptLoaderJsWasm from "./ScriptLoaderJsWasm";
+import CodeLoader from "./CodeLoader";
 
 function App() {
   return (
     <div className="app">
-      <EditorComponent />
+      <MonacoEditor />
       <Canvas />
-      <ScriptLoaderJsWasm />
+      <CodeLoader />
     </div>
   );
 }

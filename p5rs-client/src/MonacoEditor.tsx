@@ -2,24 +2,56 @@ import { useState } from "react";
 import Editor from "@monaco-editor/react";
 
 const files = {
-  "script.js": { name: "script.js", language: "javascript", value: "// JavaScript code here" },
-  "style.css": { name: "style.css", language: "css", value: "/* CSS code here */" },
-  "index.html": { name: "index.html", language: "html", value: "<!-- HTML code here -->" },
+  "script.js": {
+    name: "script.js",
+    language: "javascript",
+    value: "// JavaScript code here",
+  },
+  "style.css": {
+    name: "style.css",
+    language: "css",
+    value: "/* CSS code here */",
+  },
+  "index.html": {
+    name: "index.html",
+    language: "html",
+    value: "<!-- HTML code here -->",
+  },
+  "main.rs": {
+    name: "main.rs",
+    language: "rust",
+    value: "/* insert smart rust*/",
+  },
 };
 
-function EditorComponent() {
+function MonacoEditor() {
   const [fileName, setFileName] = useState<keyof typeof files>("script.js");
 
   return (
     <div>
-      <button disabled={fileName === "script.js"} onClick={() => setFileName("script.js")}>
+      <button
+        disabled={fileName === "script.js"}
+        onClick={() => setFileName("script.js")}
+      >
         script.js
       </button>
-      <button disabled={fileName === "style.css"} onClick={() => setFileName("style.css")}>
+      <button
+        disabled={fileName === "style.css"}
+        onClick={() => setFileName("style.css")}
+      >
         style.css
       </button>
-      <button disabled={fileName === "index.html"} onClick={() => setFileName("index.html")}>
+      <button
+        disabled={fileName === "index.html"}
+        onClick={() => setFileName("index.html")}
+      >
         index.html
+      </button>
+      <button
+        disabled={fileName === "main.rs"}
+        onClick={() => setFileName("main.rs")}
+      >
+        main.rs
       </button>
 
       <Editor
@@ -33,4 +65,4 @@ function EditorComponent() {
   );
 }
 
-export default EditorComponent;
+export default MonacoEditor;
